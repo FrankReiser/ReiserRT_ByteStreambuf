@@ -1,1 +1,1 @@
-# ReiserRT_ByteStreamBuf
+# ReiserRT_ByteStreambuf
