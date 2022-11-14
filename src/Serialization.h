@@ -15,7 +15,9 @@ namespace ReiserRT
 {
     namespace Utility
     {
-
+        using InputByteStream = std::basic_istream< unsigned char >;        //!< Alias for Basic Input Byte Stream
+        using OutputByteStream = std::basic_ostream< unsigned char >;       //!< Alias for Basic Output Byte Stream
+        using InputOutputByteStream = std::basic_iostream< unsigned char >; //!< Alias for Basic Input/Output Byte Stream
 
         /**
         * @brief Deserialize Network Ordered Bytes from a Basic Input Stream into a Type
@@ -28,7 +30,7 @@ namespace ReiserRT
         * in the "good" state for the entire operation.
         */
         template < typename T >
-        size_t _deserializeFromByteStream( std::basic_istream< unsigned char > & byteStream, unsigned char * pType );
+        size_t _deserializeFromByteStream( InputByteStream & byteStream, unsigned char * pType );
 
         /**
         * @brief Deserialize Network Ordered Bytes from an Array into a Type
@@ -54,7 +56,7 @@ namespace ReiserRT
         * in the "good" state for the entire operation.
         */
         template < typename T >
-        size_t _serializeToByteStream( std::basic_ostream< unsigned char > & byteStream, const unsigned char * pType );
+        size_t _serializeToByteStream( OutputByteStream & byteStream, const unsigned char * pType );
 
         /**
         * @brief Serialize a Type onto a Network Ordered Byte Array.
@@ -82,7 +84,7 @@ namespace ReiserRT
         * exception should std::ios_base::badbit or std::ios_base::eofbit become asserted.
         */
         template < typename T >
-        T netToType( std::basic_istream< unsigned char > & byteStream )
+        T netToType( InputByteStream & byteStream )
         {
             union { unsigned char buf[ sizeof ( T ) ]; T t; } u;
             _deserializeFromByteStream< T >( byteStream, u.buf );
@@ -103,7 +105,7 @@ namespace ReiserRT
         * exception should std::ios_base::badbit or std::ios_base::eofbit become asserted.
         */
         template < typename T >
-        size_t netToType( std::basic_istream< unsigned char > & byteStream, T & t )
+        size_t netToType( InputByteStream & byteStream, T & t )
         {
             return _deserializeFromByteStream< T >( byteStream, reinterpret_cast< unsigned char * >( &t ) );
         }
@@ -154,7 +156,7 @@ namespace ReiserRT
         * @return The number of bytes serialized.
         */
         template < typename T >
-        size_t typeToNet( const T & t, std::basic_ostream< unsigned char > & byteStream )
+        size_t typeToNet( const T & t, OutputByteStream & byteStream )
         {
             return _serializeToByteStream< T >( byteStream, reinterpret_cast< const unsigned char * >( &t ) );
         }
@@ -183,7 +185,7 @@ namespace ReiserRT
         // Template Helper Operations Implementations Below
 
         template < typename T >
-        size_t _deserializeFromByteStream( std::basic_istream< unsigned char > & byteStream, unsigned char * pType )
+        size_t _deserializeFromByteStream( InputByteStream & byteStream, unsigned char * pType )
         {
             static_assert( std::is_integral<T>::value || std::is_floating_point<T>::value || std::is_enum<T>::value,
                            "Type T must be an integer, floating point or enumerator type" );
@@ -223,7 +225,7 @@ namespace ReiserRT
         }
 
         template < typename T >
-        size_t _serializeToByteStream( std::basic_ostream< unsigned char > & byteStream, const unsigned char * pType )
+        size_t _serializeToByteStream( OutputByteStream & byteStream, const unsigned char * pType )
         {
             static_assert( std::is_integral<T>::value || std::is_floating_point<T>::value || std::is_enum<T>::value,
                            "Type T must be an integer, floating point or enumerator type" );
