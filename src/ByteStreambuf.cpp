@@ -3,6 +3,8 @@
 using namespace ReiserRT::Utility;
 
 ByteStreambuf::ByteStreambuf( char_type * pBuf, std::streamsize len, std::ios_base::openmode _openMode )
+  : std::basic_streambuf< unsigned char >()
+  , _M_openMode( _openMode )
 {
     if ( _M_openMode & std::ios_base::in )
         setg(pBuf, pBuf, pBuf + len );
