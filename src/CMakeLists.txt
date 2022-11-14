@@ -4,7 +4,8 @@ add_library( ${PROJECT_NAME} SHARED "" )
 
 # Specify all of our public headers for easy reference.
 set( _publicHeaders
-	"ByteStreambuf.h"
+    "ByteStreambuf.h"
+    "Serialization.h"
     )
 
 # Specify all of our private headers for easy reference.
@@ -13,7 +14,8 @@ set( _privateHeaders
 
 # Specify our source files
 set( _sourceFiles
-	"ByteStreambuf.cpp"
+    "ByteStreambuf.cpp"
+    "Serialization.cpp"
     )
 
 # Specify Sources to be built into our library
