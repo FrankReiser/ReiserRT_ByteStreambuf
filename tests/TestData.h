@@ -12,6 +12,17 @@
 // This data has to be non-const as we allow writing to blocks of data. Please don't attempt to overwrite the test data.
 extern unsigned char testData[8];
 
+extern const unsigned short uShortTestVal1;
+extern const unsigned short uShortTestVal2;
+extern const signed short sShortTestVal;
+extern const unsigned int uIntTestVal;
+extern const unsigned int sIntTestVal;
+extern const unsigned long uLongTestVal;
+extern const unsigned long sLongTestVal;
+extern const float floatTestVal;
+extern const double doubleTestVal;
+
+
 #if 0
 // Contents of the Raw Network Ordered bytes when Properly Deserialized.
 constexpr unsigned short uShortValOut = 33922;

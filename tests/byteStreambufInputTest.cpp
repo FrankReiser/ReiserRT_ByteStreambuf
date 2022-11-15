@@ -68,7 +68,7 @@ int main()
         }
         if ( retCode ) break;
 
-        // How many bytes are in the stream. I expect zero now
+        // How many bytes are in the stream? We expect zero after reading the entire buffer
         if ( 0 != inputByteStream.rdbuf()->in_avail() )
         {
             std::cout << "Expected Input Stream read buffer would indicate that 0 bytes are available for reading!"
@@ -110,38 +110,220 @@ int main()
         // TEST UNSIGNED SHORT
         // Note explicit template specification, just like static_cast<T>() syntax is required!!!!
         // The return type by itself won't do it!
-        auto uShortVal = netToType<unsigned short>(inputByteStream );
-        if ( uShortVal != 0x4241 )
+        const auto uShortVal1 = netToType<unsigned short>( inputByteStream );
+        if ( uShortVal1 != uShortTestVal1 )
         {
-            std::cout << "netToType<unsigned short> FAILED!  Expected 0x4241, got 0x" << std::hex << uShortVal
-                << std::endl;
+            std::cout << "netToType<unsigned short> FAILED!  Expected 0x" << std::hex << uShortTestVal1
+                      << ", got 0x" << std::hex << uShortVal1
+                      << std::endl;
             retCode = 8;
             break;
         }
 
-        // How many bytes are in the stream. I expect 6 now
-        if ( sizeof( testData ) - sizeof ( unsigned short ) != inputByteStream.rdbuf()->in_avail() )
+        // How many bytes are in the stream. I expect sizeof( unsigned short ) less than buffer size.
+        auto expectedBytesLeft = sizeof( testData ) - sizeof( unsigned short );
+        if ( inputByteStream.rdbuf()->in_avail() != expectedBytesLeft )
         {
-            std::cout << "Expected Input Stream read buffer would indicate that 4 bytes are available for reading!"
+            std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
+                << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
                 << std::endl;
             retCode = 9;
             break;
         }
 
-        // Rewind and
-        inputByteStream.seekg( 0 );
-
-        // TEST SIGNED SHORT
-        auto iShortVal = netToType<signed short>(inputByteStream );
-        if ( iShortVal != (signed short )0x4241 )
+        // Without Rewinding, Read the next bytes as an unsigned short
+        // This is the only test we will do without rewind. Once we have proven the stream
+        // advances, we don't need to keep checking this.
+        const auto uShortVal2 = netToType<unsigned short>( inputByteStream );
+        if ( uShortVal2 != uShortTestVal2 )
         {
-            std::cout << "netToType< signed short> FAILED!  Expected 0x4241, got 0x" << std::hex << (unsigned short)iShortVal
-                << std::endl;
+            std::cout << "netToType<unsigned short> FAILED!  Expected 0x" << std::hex << uShortTestVal2
+                      << ", got 0x" << std::hex << uShortVal2
+                      << std::endl;
             retCode = 10;
             break;
         }
 
+        // How many bytes are in the stream. I expect sizeof( unsigned short ) * 2 less than buffer size.
+        expectedBytesLeft = sizeof( testData ) - sizeof( unsigned short ) * 2;
+        if ( inputByteStream.rdbuf()->in_avail() != expectedBytesLeft )
+        {
+            std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
+                      << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
+                      << std::endl;
+            retCode = 11;
+            break;
+        }
 
+        // TEST SIGNED SHORT
+        inputByteStream.seekg( 0 );    // Rewind
+        const auto sShortVal = netToType<signed short>( inputByteStream );
+        if (sShortVal != sShortTestVal )
+        {
+            std::cout << "netToType<signed short> FAILED!  Expected 0x" << std::hex << (unsigned short)sShortTestVal
+                      << ", got 0x" << std::hex << (unsigned short)sShortVal
+                      << std::endl;
+            retCode = 12;
+            break;
+        }
+
+        // How many bytes are in the stream. I expect same as for the unsigned short
+        expectedBytesLeft = sizeof( testData ) - sizeof( signed short );
+        if ( expectedBytesLeft != inputByteStream.rdbuf()->in_avail() )
+        {
+            std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
+                      << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
+                      << std::endl;
+            retCode = 13;
+            break;
+        }
+
+        // TEST UNSIGNED INT
+        inputByteStream.seekg( 0 );    // Rewind
+        const auto uIntVal = netToType<unsigned int>( inputByteStream );
+        if ( uIntVal != uIntTestVal )
+        {
+            std::cout << "netToType<unsigned int> FAILED!  Expected 0x" << std::hex << uIntTestVal
+                      << ", got 0x" << std::hex << uIntVal
+                      << std::endl;
+            retCode = 14;
+            break;
+        }
+
+        // How many bytes are in the stream. I expect sizeof( unsigned int ) less than buffer size.
+        expectedBytesLeft = sizeof( testData ) - sizeof( unsigned int );
+        if ( inputByteStream.rdbuf()->in_avail() != expectedBytesLeft )
+        {
+            std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
+                      << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
+                      << std::endl;
+            retCode = 15;
+            break;
+        }
+
+        // TEST SIGNED INT
+        inputByteStream.seekg( 0 );    // Rewind
+        const auto sIntVal = netToType<signed int>( inputByteStream );
+        if ( sIntVal != sIntTestVal )
+        {
+            std::cout << "netToType<signed int> FAILED!  Expected 0x" << std::hex << (unsigned int)sIntTestVal
+                      << ", got 0x" << std::hex << (unsigned int)sIntVal
+                      << std::endl;
+            retCode = 16;
+            break;
+        }
+
+        // How many bytes are in the stream. I expect same as for the unsigned int
+        if ( expectedBytesLeft != inputByteStream.rdbuf()->in_avail() )
+        {
+            std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
+                      << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
+                      << std::endl;
+            retCode = 17;
+            break;
+        }
+
+        // TEST UNSIGNED LONG
+        inputByteStream.seekg( 0 );    // Rewind
+        const auto uLongVal = netToType<unsigned long>( inputByteStream );
+        if ( sIntVal != sIntTestVal )
+        {
+            std::cout << "netToType<unsigned long> FAILED!  Expected 0x" << std::hex << uLongTestVal
+                      << ", got 0x" << std::hex << uLongVal
+                      << std::endl;
+            retCode = 18;
+            break;
+        }
+
+        // How many bytes are in the stream. I expect sizeof( unsigned long ) less than buffer size.
+        expectedBytesLeft = sizeof( testData ) - sizeof( unsigned long );
+        if ( inputByteStream.rdbuf()->in_avail() != expectedBytesLeft )
+        {
+            std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
+                      << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
+                      << std::endl;
+            retCode = 19;
+            break;
+        }
+
+        // TEST SIGNED LONG
+        inputByteStream.seekg( 0 );    // Rewind
+        const auto sLongVal = netToType<signed long>( inputByteStream );
+        if ( sLongVal != sLongTestVal )
+        {
+            std::cout << "netToType<unsigned long> FAILED!  Expected 0x" << std::hex
+                      << (unsigned long)sLongTestVal
+                      << ", got 0x" << std::hex << (unsigned long)sLongVal
+                      << std::endl;
+            retCode = 20;
+            break;
+        }
+
+        // How many bytes are in the stream. I expect same as for the unsigned long
+        if ( expectedBytesLeft != inputByteStream.rdbuf()->in_avail() )
+        {
+            std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
+                      << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
+                      << std::endl;
+            retCode = 21;
+            break;
+        }
+
+        // TEST FLOAT
+        inputByteStream.seekg( 0 );    // Rewind
+        const auto floatVal = netToType<float>( inputByteStream );
+        if ( floatVal != floatTestVal )
+        {
+            std::cout << "netToType<unsigned long> FAILED!  Expected "
+                      << floatTestVal
+                      << ", got " << floatVal
+                      << std::endl;
+            retCode = 22;
+            break;
+        }
+
+        // How many bytes are in the stream. I expect sizeof( float ) less than buffer size.
+        expectedBytesLeft = sizeof( testData ) - sizeof( float );
+        if ( inputByteStream.rdbuf()->in_avail() != expectedBytesLeft )
+        {
+            std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
+                      << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
+                      << std::endl;
+            retCode = 23;
+            break;
+        }
+
+        // TEST DOUBLE
+        inputByteStream.seekg( 0 );    // Rewind
+        const auto doubleVal = netToType<double>( inputByteStream );
+        if ( doubleVal != doubleTestVal )
+        {
+            std::cout << "netToType<unsigned long> FAILED!  Expected "
+                      << doubleTestVal
+                      << ", got " << doubleVal
+                      << std::endl;
+            retCode = 24;
+            break;
+        }
+
+        // How many bytes are in the stream. I expect sizeof( double ) less than buffer size.
+        expectedBytesLeft = sizeof( testData ) - sizeof( double );
+        if ( inputByteStream.rdbuf()->in_avail() != expectedBytesLeft )
+        {
+            std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
+                      << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
+                      << std::endl;
+            retCode = 25;
+            break;
+        }
+
+#if 0
+
+        // With Exceptions Enabled
+
+        // Output Testing.
+
+#endif
 
     } while( false);
 
