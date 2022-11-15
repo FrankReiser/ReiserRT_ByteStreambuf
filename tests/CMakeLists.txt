@@ -4,3 +4,8 @@ target_include_directories( inputByteStreambufTest PUBLIC ../src )
 target_link_libraries( inputByteStreambufTest ReiserRT_ByteStreambuf  )
 add_test( NAME runInputByteStreambufTest COMMAND $<TARGET_FILE:inputByteStreambufTest> )
 
+add_executable( outputByteStreambufTest "" )
+target_sources( outputByteStreambufTest PRIVATE outputByteStreambufTest.cpp TestData.cpp)
+target_include_directories( outputByteStreambufTest PUBLIC ../src )
+target_link_libraries( outputByteStreambufTest ReiserRT_ByteStreambuf  )
+add_test( NAME runOutputByteStreambufTest COMMAND $<TARGET_FILE:outputByteStreambufTest> )

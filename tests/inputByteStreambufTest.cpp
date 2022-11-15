@@ -1,6 +1,6 @@
 /**
 * @file inputByteStreambufTest.cpp
-* @brief Specification File for Test Data to Verify Input Serialization and ByteStreambuf
+* @brief Test Harness to Verify Input Serialization and ByteStreambuf
 * @authors Frank Reiser
 * @date Created on November 14, 2022
 */
@@ -353,7 +353,7 @@ int main()
                 break;
             }
         }
-        
+
     } while( false);
 
 

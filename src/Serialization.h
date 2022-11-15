@@ -180,9 +180,7 @@ namespace ReiserRT
             return _serializeToByteArray< T >( bytes, reinterpret_cast< const unsigned char * >( &t ) );
         }
 
-
-
-        // Template Helper Operations Implementations Below
+        /////////// Template Helper Operations Implementations Below ////////////
 
         template < typename T >
         size_t _deserializeFromByteStream( InputByteStream & byteStream, unsigned char * pType )
@@ -190,14 +188,25 @@ namespace ReiserRT
             static_assert( std::is_integral<T>::value || std::is_floating_point<T>::value || std::is_enum<T>::value,
                            "Type T must be an integer, floating point or enumerator type" );
             size_t i = 0;
-
 #if ( __BYTE_ORDER == __BIG_ENDIAN )
-            for ( ; byteStream.good() && i != sizeof ( T ); ++i )
-                byteStream.get( *pType++ );
+            if ( byteStream )
+            {
+                for( ; sizeof ( T ) != i; ++i)
+                {
+                    byteStream.get( *pType++ );
+                    if ( !byteStream ) break;
+                }
+            }
 #elif ( __BYTE_ORDER == __LITTLE_ENDIAN )
-            pType += sizeof( T ) - 1;
-            for ( ; byteStream.good() && i != sizeof ( T ); ++i )
-                byteStream.get( *pType-- );
+            if ( byteStream )
+            {
+                pType += sizeof( T ) - 1;
+                for( ; sizeof ( T ) != i; ++i)
+                {
+                    byteStream.get( *pType-- );
+                    if ( !byteStream ) break;
+                }
+            }
 #else
 #error "Preprocessor symbol __BYTE_ORDER must be defined as __BIG_ENDIAN or __LITTLE_ENDIAN!!!"
 #endif
@@ -229,15 +238,26 @@ namespace ReiserRT
         {
             static_assert( std::is_integral<T>::value || std::is_floating_point<T>::value || std::is_enum<T>::value,
                            "Type T must be an integer, floating point or enumerator type" );
-
             size_t i = 0;
 #if ( __BYTE_ORDER == __BIG_ENDIAN )
-            for ( ; byteStream.good() && i != sizeof ( T ); ++i )
-                byteStream.put( *pType++ );
+            if ( byteStream )
+            {
+                for ( ; sizeof( T ) != i; ++i )
+                {
+                    byteStream.put( *pType++ );
+                    if ( !byteStream ) break;
+                }
+            }
 #elif ( __BYTE_ORDER == __LITTLE_ENDIAN )
-            pType += sizeof( T ) - 1;
-            for ( ; byteStream.good() && i != sizeof ( T ); ++i )
-                byteStream.put( *pType-- );
+            if ( byteStream )
+            {
+                pType += sizeof( T ) - 1;
+                for ( ; sizeof( T ) != i; ++i )
+                {
+                    byteStream.put( *pType-- );
+                    if ( !byteStream ) break;
+                }
+            }
 #else
 #error "Preprocessor symbol __BYTE_ORDER must be defined as __BIG_ENDIAN or __LITTLE_ENDIAN!!!"
 #endif
