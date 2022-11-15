@@ -1,6 +1,6 @@
 /**
-* @file byteStreambufInputTest.cpp
-* @brief Specification File for Test Data to Verify Serialization and ByteStreambuf
+* @file inputByteStreambufTest.cpp
+* @brief Specification File for Test Data to Verify Input Serialization and ByteStreambuf
 * @authors Frank Reiser
 * @date Created on November 14, 2022
 */
@@ -317,14 +317,43 @@ int main()
             break;
         }
 
-#if 0
+        // TEST WITH EXCEPTIONS ENABLED
 
-        // With Exceptions Enabled
+        // Capture Start Conditions. It is often appropriate to return them to their original state
+        // afterwards. However, if you own the object, you should be able to set it once and forget it,
+        const auto startExceptionState = inputByteStream.exceptions();
 
-        // Output Testing.
+        // Or in 'badbit' and 'failbit' bits. This should result on an exception being thrown if we read past the end.
+        inputByteStream.exceptions( startExceptionState | ( std::ios_base::badbit | std::ios_base::failbit ) );
 
-#endif
+        // Try this as we should eventually throw.
+        try
+        {
+            // We should already be at the end from the previous test. But just incase things change, we will make sure.
+            // We will read the 'expectedBytesLeft' and then one more.
+            for ( ; 0 != expectedBytesLeft; --expectedBytesLeft )
+                inputByteStream.get();
 
+            // This should definitely throw
+            inputByteStream.get();
+
+            // If we find ourselves here, we failed.
+            std::cout << "Excepted Exception to be thrown and that did not occur!" << std::endl;
+            retCode = 26;
+            break;
+        }
+        catch ( const std::ios_base::failure & e )
+        {
+//            std::cout << "Exception caught!" << std::endl;
+
+            // If 'expectedBytesLeft' is NOT zero then we FAILED this test.
+            if ( 0 != expectedBytesLeft )
+            {
+                retCode = 27;
+                break;
+            }
+        }
+        
     } while( false);
 
 
