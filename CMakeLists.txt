@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.15)
 
 project(ReiserRT_ByteStreambuf
         VERSION 1.0.2
