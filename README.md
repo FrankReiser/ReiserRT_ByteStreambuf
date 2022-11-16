@@ -12,7 +12,7 @@ operators which do formatted I/O.
 This package also provides `typeToNet` and `netToType` template code to perform serialization/deserialization
 operations on iostream instances, along with versions to use directly on raw memory.
 
-Class, `ReiserRT_ByteStreambuf` derives from `std::basic_streambuf< unsigned char>`and overrides only what
+Class, `ReiserRT_ByteStreambuf` derives from `std::basic_streambuf< unsigned char>` and overrides only what
 is necessary to accomplish the job of un-formatted I/O on unsigned char data blocks. Once instantiated,
 a `std::basic_istream< unsigned char >`, `std::basic_ostream< unsigned char >` or `std::basic_iostream< unsigned char >`
 may be instantiated and utilized as follows (input example given):
