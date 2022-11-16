@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(ReiserRT_ByteStreambuf
-        VERSION 1.0.1
+        VERSION 1.0.2
 	DESCRIPTION "Frank Reiser's Byte Streambuf Utilitiy" )
 
 # Set up compiler requirements
