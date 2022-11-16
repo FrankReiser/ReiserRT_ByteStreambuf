@@ -12,7 +12,7 @@ operators which do formatted I/O.
 This package also provides `typeToNet` and `netToType` template code to perform serialization/deserialization
 operations on iostream instances, along with versions to use directly on raw memory.
 
-Class, `ReiserRT_ByteStreambuf` derives from `std::basic_streambuf< unsigned char>` and overrides only what
+Class, `ByteStreambuf` derives from `std::basic_streambuf< unsigned char >` and overrides only what
 is necessary to accomplish the job of un-formatted I/O on unsigned char data blocks. Once instantiated,
 a `std::basic_istream< unsigned char >`, `std::basic_ostream< unsigned char >` or `std::basic_iostream< unsigned char >`
 may be instantiated and utilized as follows (input example given):
@@ -29,10 +29,11 @@ may be instantiated and utilized as follows (input example given):
   const auto uShortVal = netToType< unsigned short >( inputByteStream );
   ```
 
-You can do most things you would expect to be able to do with an iostream. However, as is,
-you may have to do your own monitoring of iostream state as running of the end of the buffer
-will leave the stream in a bad state. To simplify life, you may wish to modify the exception
-mask so that an exception will be thrown on failure. This alleviates constant monitoring.
+You can do most things you would expect to be able to do with an iostream. As with iostream by default,
+you have to do your own monitoring of stream state. Running off the end of the buffer
+will leave the stream in a 'bad' state. Achieving this state alone, will not throw an exception.
+If you require an exception be thrown, you may modify the stream's exception mask so that, exceptions will
+be thrown on failure. Enabling exceptions alleviates the constant monitoring of stream state.
 To utilize exception handling. Do the following:
 
   ```

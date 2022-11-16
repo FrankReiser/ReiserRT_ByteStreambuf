@@ -74,9 +74,9 @@ namespace ReiserRT
         /**
         * @brief Convert Network Ordered Bytes from a Basic Input Stream into a Type
         *
-        * This template operation converts network ordered bytes from the byte stream into type T.
+        * This template operation converts network ordered bytes from the byte stream into return value type T.
         *
-        * @tparam T Type T is the type to convert to. It must be a numeric or enumerator type.
+        * @tparam T Type T is the type to convert to and return. It must be a numeric or enumerator type.
         * @param byteStream A reference to the byte stream containing the network ordered bytes.
         * @return Returns value type T.
         * @warning The type may not be fully deserialized if the stream hits EOF before all bytes are deserialized.
@@ -94,7 +94,8 @@ namespace ReiserRT
         /**
         * @brief Convert Network Ordered Bytes from Basic Input Stream into a Type
         *
-        * This template operation converts network ordered bytes from the byte stream into type T.
+        * This template operation converts network ordered bytes from the byte stream into type T via output
+        * argument. It returns the number of bytes successfully read from the stream.
         *
         * @tparam T Type T is the type to convert to. It must be a numeric or enumerator type.
         * @param byteStream A reference to the byte stream containing the network ordered bytes.
