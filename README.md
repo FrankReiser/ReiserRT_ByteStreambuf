@@ -10,7 +10,7 @@ This means using the 'put' and 'get' stream operations as opposed to using the '
 operators which do formatted I/O.
 
 This package also provides `typeToNet` and `netToType` template code to perform serialization/deserialization
-operations on iostream instances, along with versions to use directly on raw memory.
+operations on iostream instances.
 
 Class, `ByteStreambuf` derives from `std::basic_streambuf< unsigned char >` and overrides only what
 is necessary to accomplish the job of un-formatted I/O on unsigned char data blocks. Once instantiated,
