@@ -13,7 +13,6 @@ namespace ReiserRT
 {
     namespace Utility
     {
-        ///@todo Export this class
         /**
         * @brief Byte Stream Buffer Implementation
         *
