@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
 
 project( ReiserRT_ByteStreambuf
-         VERSION 1.1.2
-         DESCRIPTION "Frank Reiser's Byte Streambuf Utility" )
+         VERSION 1.1.3
+         DESCRIPTION "Frank Reiser's Byte Stream Buffer Utility" )
 
 # Set up compiler requirements
 set(CMAKE_CXX_STANDARD 11)
