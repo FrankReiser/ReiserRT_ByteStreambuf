@@ -1,6 +1,8 @@
 # ReiserRT_ByteStreambuf
 
 Frank Reiser's C++11 implementation of a Byte Stream Buffer to perform serialization using iostream instances.
+This component has been tested to be interface-able with C++20 compiles. Note that the compiled library code
+is built using the c++11 standard.
 
 ## Overview
 This library package affords the ability to use iostream instances with unsigned character blocks
