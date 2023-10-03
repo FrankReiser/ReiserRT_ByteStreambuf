@@ -27,9 +27,7 @@ std::streampos ByteStreambuf::seekoff( std::streamoff off, std::ios_base::seekdi
 {
     std::streampos retVal = -1;
 
-    ///@todo There is a lot in common between these two blocks and this code could be simplified.
-    ///It took me some time to get this working and I have to leave it alone for now.
-    ///Danger though. Argument "which" could be both in & out, although I have never witnessed it.
+    // If performing input
     if ( ( which & std::ios_base::in ) && ( _M_openMode & std::ios_base::in ) )
     {
         // Get current offset
@@ -40,23 +38,14 @@ std::streampos ByteStreambuf::seekoff( std::streamoff off, std::ios_base::seekdi
         if ( 0 == off && std::ios_base::cur == way ) retVal = curOffset;
 
         // Otherwise, seek based on seek direction
-#if 1
         else {
             if ( std::ios_base::cur == way ) retVal = seekpos( curOffset + off, std::ios_base::in );
             else if ( std::ios_base::beg == way ) retVal = seekpos( off, std::ios_base::in );
             else if ( std::ios_base::end == way ) retVal = seekpos( egptr() - eback() + off, std::ios_base::in );
         }
-
-#else
-        else switch ( way )
-        {
-            case std::ios_base::cur: retVal = seekpos( curOffset + off, std::ios_base::in ); break;
-            case std::ios_base::beg: retVal = seekpos( off, std::ios_base::in ); break;
-            case std::ios_base::end: retVal = seekpos( egptr() - eback() + off, std::ios_base::in ); break;
-        }
-#endif
     }
 
+    // If performing output
     if ( ( which & std::ios_base::out ) && ( _M_openMode & std::ios_base::out ) )
     {
         // Get current offset
@@ -66,20 +55,11 @@ std::streampos ByteStreambuf::seekoff( std::streamoff off, std::ios_base::seekdi
         if ( 0 == off && std::ios_base::cur == way ) retVal = curOffset;
 
         // Otherwise, seek based on seek direction
-#if 1
         else {
             if ( std::ios_base::cur == way ) retVal = seekpos( curOffset + off, std::ios_base::out );
             else if ( std::ios_base::beg == way ) retVal = seekpos( off, std::ios_base::out );
             else if ( std::ios_base::end == way ) retVal = seekpos( epptr() - pbase() + off, std::ios_base::out );
         }
-#else
-        else switch ( way )
-        {
-            case std::ios_base::cur: retVal = seekpos( curOffset + off, std::ios_base::out ); break;
-            case std::ios_base::beg: retVal = seekpos( off, std::ios_base::out ); break;
-            case std::ios_base::end: retVal = seekpos( epptr() - pbase() + off, std::ios_base::out ); break;
-        }
-#endif
     }
 
     return retVal;
