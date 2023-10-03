@@ -39,13 +39,22 @@ std::streampos ByteStreambuf::seekoff( std::streamoff off, std::ios_base::seekdi
         // This is more of a query used by istream::tellg()
         if ( 0 == off && std::ios_base::cur == way ) retVal = curOffset;
 
-            // Otherwise, seek based on seek direction
+        // Otherwise, seek based on seek direction
+#if 1
+        else {
+            if ( std::ios_base::cur == way ) retVal = seekpos( curOffset + off, std::ios_base::in );
+            else if ( std::ios_base::beg == way ) retVal = seekpos( off, std::ios_base::in );
+            else if ( std::ios_base::end == way ) retVal = seekpos( egptr() - eback() + off, std::ios_base::in );
+        }
+
+#else
         else switch ( way )
         {
             case std::ios_base::cur: retVal = seekpos( curOffset + off, std::ios_base::in ); break;
             case std::ios_base::beg: retVal = seekpos( off, std::ios_base::in ); break;
             case std::ios_base::end: retVal = seekpos( egptr() - eback() + off, std::ios_base::in ); break;
         }
+#endif
     }
 
     if ( ( which & std::ios_base::out ) && ( _M_openMode & std::ios_base::out ) )
@@ -56,13 +65,21 @@ std::streampos ByteStreambuf::seekoff( std::streamoff off, std::ios_base::seekdi
         // If seek off is zero from current position, just return the current offset.
         if ( 0 == off && std::ios_base::cur == way ) retVal = curOffset;
 
-            // Otherwise, seek based on seek direction
+        // Otherwise, seek based on seek direction
+#if 1
+        else {
+            if ( std::ios_base::cur == way ) retVal = seekpos( curOffset + off, std::ios_base::out );
+            else if ( std::ios_base::beg == way ) retVal = seekpos( off, std::ios_base::out );
+            else if ( std::ios_base::end == way ) retVal = seekpos( epptr() - pbase() + off, std::ios_base::out );
+        }
+#else
         else switch ( way )
         {
             case std::ios_base::cur: retVal = seekpos( curOffset + off, std::ios_base::out ); break;
             case std::ios_base::beg: retVal = seekpos( off, std::ios_base::out ); break;
             case std::ios_base::end: retVal = seekpos( epptr() - pbase() + off, std::ios_base::out ); break;
         }
+#endif
     }
 
     return retVal;

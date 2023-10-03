@@ -329,7 +329,7 @@ int main()
         // Try this as we should eventually throw.
         try
         {
-            // We should already be at the end from the previous test. But just incase things change, we will make sure.
+            // We should already be at the end from the previous test. But just in case things change, we will make sure.
             // We will read the 'expectedBytesLeft' and then one more.
             for ( ; 0 != expectedBytesLeft; --expectedBytesLeft )
                 inputByteStream.get();
