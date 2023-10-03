@@ -10,7 +10,7 @@
 
 // Raw Network Ordered Bytes for testing
 // This data has to be non-const as we allow writing to blocks of data. Please don't attempt to overwrite the test data.
-extern unsigned char testData[8];
+extern unsigned char testData[16];
 
 extern const unsigned short uShortTestVal1;
 extern const unsigned short uShortTestVal2;

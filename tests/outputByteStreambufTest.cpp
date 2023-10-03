@@ -37,10 +37,8 @@ int main()
         OutputByteStream outputByteStream( &byteStreambuf );
 
         // We will verify the number of bytes written on subsequent tests.
-        size_t bytesWritten = 0;
-
         // TEST UNSIGNED SHORT #1 and #2
-        bytesWritten = typeToNet(uShortTestVal1, outputByteStream );
+        auto bytesWritten = typeToNet(uShortTestVal1, outputByteStream );
         if ( sizeof ( uShortTestVal1 ) != bytesWritten )
         {
             std::cout << "Expected Output Stream write would indicate that " << sizeof( uShortTestVal1 )
