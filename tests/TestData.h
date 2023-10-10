@@ -16,9 +16,9 @@ extern const unsigned short uShortTestVal1;
 extern const unsigned short uShortTestVal2;
 extern const signed short sShortTestVal;
 extern const unsigned int uIntTestVal;
-extern const unsigned int sIntTestVal;
+extern const signed int sIntTestVal;
 extern const unsigned long uLongTestVal;
-extern const unsigned long sLongTestVal;
+extern const signed long sLongTestVal;
 extern const float floatTestVal;
 extern const double doubleTestVal;
 

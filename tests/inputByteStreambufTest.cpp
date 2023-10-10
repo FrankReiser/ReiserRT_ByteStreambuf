@@ -122,7 +122,7 @@ int main()
 
         // How many bytes are in the stream. I expect sizeof( unsigned short ) less than buffer size.
         auto expectedBytesLeft = sizeof( testData ) - sizeof( unsigned short );
-        if ( inputByteStream.rdbuf()->in_avail() != expectedBytesLeft )
+        if ( inputByteStream.rdbuf()->in_avail() != (long)expectedBytesLeft )
         {
             std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
                 << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
@@ -146,7 +146,7 @@ int main()
 
         // How many bytes are in the stream. I expect sizeof( unsigned short ) * 2 less than buffer size.
         expectedBytesLeft = sizeof( testData ) - sizeof( unsigned short ) * 2;
-        if ( inputByteStream.rdbuf()->in_avail() != expectedBytesLeft )
+        if ( inputByteStream.rdbuf()->in_avail() != (long)expectedBytesLeft )
         {
             std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
                       << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
@@ -169,7 +169,7 @@ int main()
 
         // How many bytes are in the stream. I expect same as for the unsigned short
         expectedBytesLeft = sizeof( testData ) - sizeof( signed short );
-        if ( expectedBytesLeft != inputByteStream.rdbuf()->in_avail() )
+        if ( inputByteStream.rdbuf()->in_avail() != (long)expectedBytesLeft )
         {
             std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
                       << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
@@ -192,7 +192,7 @@ int main()
 
         // How many bytes are in the stream. I expect sizeof( unsigned int ) less than buffer size.
         expectedBytesLeft = sizeof( testData ) - sizeof( unsigned int );
-        if ( inputByteStream.rdbuf()->in_avail() != expectedBytesLeft )
+        if ( inputByteStream.rdbuf()->in_avail() != (long)expectedBytesLeft )
         {
             std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
                       << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
@@ -214,7 +214,7 @@ int main()
         }
 
         // How many bytes are in the stream. I expect same as for the unsigned int
-        if ( expectedBytesLeft != inputByteStream.rdbuf()->in_avail() )
+        if ( inputByteStream.rdbuf()->in_avail() != (long)expectedBytesLeft )
         {
             std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
                       << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
@@ -237,7 +237,7 @@ int main()
 
         // How many bytes are in the stream. I expect sizeof( unsigned long ) less than buffer size.
         expectedBytesLeft = sizeof( testData ) - sizeof( unsigned long );
-        if ( inputByteStream.rdbuf()->in_avail() != expectedBytesLeft )
+        if ( inputByteStream.rdbuf()->in_avail() != (long)expectedBytesLeft )
         {
             std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
                       << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
@@ -260,7 +260,7 @@ int main()
         }
 
         // How many bytes are in the stream. I expect same as for the unsigned long
-        if ( expectedBytesLeft != inputByteStream.rdbuf()->in_avail() )
+        if ( inputByteStream.rdbuf()->in_avail() != (long)expectedBytesLeft )
         {
             std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
                       << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
@@ -284,7 +284,7 @@ int main()
 
         // How many bytes are in the stream. I expect sizeof( float ) less than buffer size.
         expectedBytesLeft = sizeof( testData ) - sizeof( float );
-        if ( inputByteStream.rdbuf()->in_avail() != expectedBytesLeft )
+        if ( inputByteStream.rdbuf()->in_avail() != (long)expectedBytesLeft )
         {
             std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
                       << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
@@ -308,7 +308,7 @@ int main()
 
         // How many bytes are in the stream. I expect sizeof( double ) less than buffer size.
         expectedBytesLeft = sizeof( testData ) - sizeof( double );
-        if ( inputByteStream.rdbuf()->in_avail() != expectedBytesLeft )
+        if ( inputByteStream.rdbuf()->in_avail() != (long)expectedBytesLeft )
         {
             std::cout << "Expected Input Stream buffer would have " << expectedBytesLeft
                       << " remaining for input and " << inputByteStream.rdbuf()->in_avail() << " are remaining"
