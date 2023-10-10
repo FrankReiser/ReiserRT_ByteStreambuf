@@ -14,9 +14,9 @@ const unsigned short uShortTestVal1 = 0x4241;
 const unsigned short uShortTestVal2 = 0x8040;
 const signed short sShortTestVal = (signed short)0x4241;
 const unsigned int uIntTestVal = 0x42418040;
-const unsigned int sIntTestVal = (signed int)uIntTestVal;
+const signed int sIntTestVal = (signed int)uIntTestVal;
 const unsigned long uLongTestVal = 0x4241804020100804;
-const unsigned long sLongTestVal = (signed long)uLongTestVal;
+const signed long sLongTestVal = (signed long)uLongTestVal;
 const float floatTestVal = 48.375244140625;
 const double doubleTestVal = 150332260384.0626220703125;
 
