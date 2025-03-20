@@ -4,19 +4,19 @@ using namespace ReiserRT::Utility;
 
 ByteStreambuf::ByteStreambuf( char_type * pBuf, std::streamsize len, std::ios_base::openmode _openMode )
   : std::basic_streambuf< unsigned char >()
-  , _M_openMode( _openMode )
+  , recordedOpenMode( _openMode )
 {
-    if ( _M_openMode & std::ios_base::in )
+    if ( recordedOpenMode & std::ios_base::in )
         setg(pBuf, pBuf, pBuf + len );
-    if ( _M_openMode & std::ios_base::out )
+    if ( recordedOpenMode & std::ios_base::out )
         setp(pBuf, pBuf + len );
 }
 
 ByteStreambuf * ByteStreambuf::setbuf( char_type * pBuf, std::streamsize len )
 {
-    if ( _M_openMode & std::ios_base::in )
+    if ( recordedOpenMode & std::ios_base::in )
         setg(pBuf, pBuf, pBuf + len );
-    if ( _M_openMode & std::ios_base::out )
+    if ( recordedOpenMode & std::ios_base::out )
         setp(pBuf, pBuf + len );
 
     return this;
@@ -28,7 +28,7 @@ std::streampos ByteStreambuf::seekoff( std::streamoff off, std::ios_base::seekdi
     std::streampos retVal = -1;
 
     // If performing input
-    if ( ( which & std::ios_base::in ) && ( _M_openMode & std::ios_base::in ) )
+    if ( ( which & std::ios_base::in ) && ( recordedOpenMode & std::ios_base::in ) )
     {
         // Get current offset
         const std::streampos curOffset = gptr() - eback();
@@ -46,7 +46,7 @@ std::streampos ByteStreambuf::seekoff( std::streamoff off, std::ios_base::seekdi
     }
 
     // If performing output
-    if ( ( which & std::ios_base::out ) && ( _M_openMode & std::ios_base::out ) )
+    if ( ( which & std::ios_base::out ) && ( recordedOpenMode & std::ios_base::out ) )
     {
         // Get current offset
         const std::streampos curOffset = pptr() - pbase();
@@ -69,7 +69,7 @@ std::streampos ByteStreambuf::seekpos( std::streampos pos, std::ios_base::openmo
 {
     std::streampos retVal = -1;
 
-    if ( ( which & std::ios_base::in ) && ( _M_openMode & std::ios_base::in ) )
+    if ( ( which & std::ios_base::in ) && ( recordedOpenMode & std::ios_base::in ) )
     {
         const std::streampos curOffset = gptr() - eback();
         if ( curOffset == pos )
@@ -83,7 +83,7 @@ std::streampos ByteStreambuf::seekpos( std::streampos pos, std::ios_base::openmo
         }
     }
 
-    if ( ( which & std::ios_base::out ) && ( _M_openMode & std::ios_base::out ) )
+    if ( ( which & std::ios_base::out ) && ( recordedOpenMode & std::ios_base::out ) )
     {
         const std::streampos curOffset = pptr() - pbase();
         if ( curOffset == pos )

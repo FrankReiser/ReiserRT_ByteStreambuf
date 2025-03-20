@@ -92,7 +92,7 @@ namespace ReiserRT
             *
             * We record the "open mode" at time of construction for later use.
             */
-            std::ios_base::openmode _M_openMode;
+            std::ios_base::openmode recordedOpenMode;
         };
 
 
