@@ -5,6 +5,9 @@
 * @date Created on November 13, 2022
 */
 
+#ifndef REISER_RT_BYTESTREAMBUF_BYTESTREAMBUF_H
+#define REISER_RT_BYTESTREAMBUF_BYTESTREAMBUF_H
+
 #include "ReiserRT_ByteStreambufExport.h"
 
 #include <iostream>
@@ -72,16 +75,16 @@ namespace ReiserRT
             * @param len The length of the buffer to be utilized for buffering.
             * @return Returns a pointer to the ByteStreamBuf object operated on.
             */
-            ByteStreambuf * setbuf( char_type * pBuf, std::streamsize len );
+            ByteStreambuf * setbuf( char_type * pBuf, std::streamsize len ) override;
 
 
             ///@todo Document as an override
             std::streampos seekoff( std::streamoff off, std::ios_base::seekdir way,
-                        std::ios_base::openmode which );
+                        std::ios_base::openmode which ) override;
 
 
             ///@todo Document as an override
-            std::streampos seekpos( std::streampos pos, std::ios_base::openmode which );
+            std::streampos seekpos( std::streampos pos, std::ios_base::openmode which ) override;
 
         protected:
             /**
@@ -95,3 +98,5 @@ namespace ReiserRT
 
     }
 }
+
+#endif //REISER_RT_BYTESTREAMBUF_BYTESTREAMBUF_H

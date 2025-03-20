@@ -320,7 +320,7 @@ int main()
         // TEST WITH EXCEPTIONS ENABLED
 
         // Capture Start Conditions. It is often appropriate to return them to their original state
-        // afterwards. However, if you own the object, you should be able to set it once and forget it,
+        // afterward. However, if you own the object, you should be able to set it once and forget it,
         const auto startExceptionState = inputByteStream.exceptions();
 
         // Or in 'badbit' and 'failbit' bits. This should result on an exception being thrown if we read past the end.
